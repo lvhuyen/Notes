@@ -39,7 +39,7 @@ Some of them have timestamp of 10:10:10.123, and some of them have even earlier 
 
 The rate of missing files depends on how fast we pump the files in, and how frequently we do the listing. The faster the rate, the more missed files.
 
-*\* Even without that eventually consistency, we still have this files missing problem. The severity would be milder though. As long as there are multiple new files coming within a single recordable time unit (millisecond in S3 case), and we are doing the listing when that very moment has not completely passed, then we'll miss some files. <BR>
+*\* Even without that eventually consistency, we still have this files missing problem. The severity would be milder though. As long as there are multiple of new files coming within a single recordable time unit (millisecond in S3 case), and we are doing the listing when that very moment has not completely passed, then we'll miss some files. <BR>
 \*\* When not using S3, but some traditional file system, there's a bigger issue: file partly exists (e.g: only the first part of the file is visible)*
 
 ### Our solution
