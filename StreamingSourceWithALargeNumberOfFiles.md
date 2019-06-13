@@ -76,4 +76,6 @@ The obvious solution is to have a hierarchical folder structure. Most intuitivel
 # V. Implementation
 The implementation here is done in Flink.
 
-For the first issue
+For the missing files issue, please refer to this [Pull-Request](https://github.com/apache/flink/pull/6613)
+
+For the 2nd issue, please refer to [this class](https://github.com/lvhuyen/sdc/blob/master/src/main/scala/com/starfox/flink/source/SmallFilesReader.scala) 
