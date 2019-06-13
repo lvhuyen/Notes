@@ -1,6 +1,6 @@
 Handling streaming sources with a large number (millions) of files
 ============
-# The problem
+# I. The problem
 Small file is something that the Hadoop community doesn't like. It affects your solution's performance and resources ([https://medium.com/arabamlabs/small-files-in-hadoop-88708e2f6a46]())
 
 We are in the telecoms field, with tens of thousands of network nodes. When we collect data from those nodes, it comes in tens of thousands of small files in each collection.
@@ -18,18 +18,18 @@ Thu Oct 31 06:04:56 UTC 2018
 Thu Oct 31 06:15:50 UTC 2018
 ```
 10 minutes was the time we needed to list 2 million files on S3 from an EC2 (AWS VPC endpoint for S3 is on, so all communication is internally to AWS network)
-# Solutions
-## An easy but not so nice
+# II. Solutions
+## 1. An easy but not so nice
 Pop a file from the bucket to the left, process it, then it to the bucket to the right.
 So files in the left bucket are to be processed, and to the right are the processed ones. *At-least-once* is easily achieved. Some more tweaks then we could have *Exactly-once*
 
 **What's wrong here?** <BR/>
 Not much. Only one issue we could see: data is moved. What if we have another consumer of that data? Another move? Another consumer? Another Move again? <BR> That's fine. But we don't like that.
-## Another easy, but ...
+## 2. Another easy, but ...
 Listing only those files which have creation time fall within a specific time window, and move the time window forward every time we list.<BR>Oh, that's good, simple, and clean. But? We are not aware of such feature in HDFS, and we were told that S3 doesn't have that either.
 
-# A closer look
-## Dealing with missing files
+# III. A closer look
+## 1. Dealing with missing files
 ### Root cause analysis
 The root cause of our issue came from that "eventually consistency" behaviour of AWS S3. As per Amazon's document, this behaviour is only observable when files got updated or updated. However, they should have warned their customers that this behaviour might affect them in listing the files as well.[*]
 
@@ -55,7 +55,7 @@ Instead of re-processing some seconds, we can have a deferred watermark. For eve
 *The good*: no need to maintain the list of processed files.<BR>
 *The bad*: a delay gets introduced into our pipeline.
 
-## Dealing with listing millions of files
+## 2. Dealing with listing millions of files
 The obvious solution is to have a hierarchical folder structure. Most intuitively, this hierarchy should be done basing on time. Something like <BR>
 ```
  |- today 
