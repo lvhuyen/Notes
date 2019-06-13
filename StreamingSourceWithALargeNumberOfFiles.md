@@ -73,3 +73,7 @@ The obvious solution is to have a hierarchical folder structure. Most intuitivel
 - Need to define how files are put into each folder - basing on the event time (file generation time) or processing time (received time). If event time is used, then there's a need to handle late coming files.
 - For the case when the pipeline is interrupted for a long time, with a heap of non-processed files queued up, there needs to be a proper handling of pagination.
 
+# V. Implementation
+The implementation here is done in Flink.
+
+For the first issue
